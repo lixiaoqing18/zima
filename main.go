@@ -6,7 +6,6 @@ import (
 	"github.com/lixiaoqing18/zima/framework"
 	"github.com/lixiaoqing18/zima/framework/provider/kernel"
 	"github.com/lixiaoqing18/zima/framework/provider/setting"
-	"github.com/spf13/pflag"
 )
 
 func main() {
@@ -19,6 +18,4 @@ func main() {
 	}
 
 	console.RunCommand()
-
-	pflag.Parse()
 }
