@@ -9,6 +9,7 @@ import (
 	"github.com/erikdubbelboer/gspt"
 	"github.com/lixiaoqing18/zima/framework"
 	"github.com/lixiaoqing18/zima/framework/contract"
+	"github.com/sevlyar/go-daemon"
 	"github.com/spf13/cast"
 	"github.com/spf13/cobra"
 )
@@ -32,8 +33,41 @@ var cronStartCommand = &cobra.Command{
 		// start命令有一个deamon参数，简写为d
 		settingService := framework.MustMake(contract.SettingKey).(contract.Setting)
 		cronPidFile := filepath.Join(settingService.RuntimeFolder(), "cron.pid")
+		cronLogFile := filepath.Join(settingService.LogFolder(), "cron.log")
+		currentFolder := settingService.BaseFolder()
 		if cronDeamon {
+			// 创建一个Context
+			cntxt := &daemon.Context{
+				// 设置pid文件
+				PidFileName: cronPidFile,
+				PidFilePerm: 0664,
+				// 设置日志文件
+				LogFileName: cronLogFile,
+				LogFilePerm: 0640,
+				// 设置工作路径
+				WorkDir: currentFolder,
+				// 设置所有设置文件的mask，默认为750
+				Umask: 027,
+				// 子进程的参数，按照这个参数设置，子进程的命令为 ./hade cron start --daemon=true
+				Args: []string{"", "cron", "start", "--daemon=true"},
+			}
+			// 启动子进程，d不为空表示当前是父进程，d为空表示当前是子进程
+			d, err := cntxt.Reborn()
+			if err != nil {
+				return err
+			}
+			if d != nil {
+				// 父进程直接打印启动成功信息，不做任何操作
+				fmt.Println("cron service started, pid:", d.Pid)
+				fmt.Println("log file:", cronLogFile)
+				return nil
+			}
 
+			// 子进程执行Cron.Run
+			defer cntxt.Release()
+			fmt.Println("daemon started")
+			gspt.SetProcTitle("hade cron")
+			framework.StartCron()
 			return nil
 		} else {
 			pid := cast.ToString(os.Getpid())
