@@ -33,6 +33,9 @@ var cronStartCommand = &cobra.Command{
 		// start命令有一个deamon参数，简写为d
 		settingService := framework.MustMake(contract.SettingKey).(contract.Setting)
 		cronPidFile := filepath.Join(settingService.RuntimeFolder(), "cron.pid")
+		if err := os.Remove(cronPidFile); err != nil {
+			return err
+		}
 		cronLogFile := filepath.Join(settingService.LogFolder(), "cron.log")
 		currentFolder := settingService.BaseFolder()
 		if cronDeamon {
@@ -48,7 +51,7 @@ var cronStartCommand = &cobra.Command{
 				WorkDir: currentFolder,
 				// 设置所有设置文件的mask，默认为750
 				Umask: 027,
-				// 子进程的参数，按照这个参数设置，子进程的命令为 ./hade cron start --daemon=true
+				// 子进程的参数，按照这个参数设置，子进程的命令为 ./zima cron start --daemon=true
 				Args: []string{"", "cron", "start", "--daemon=true"},
 			}
 			// 启动子进程，d不为空表示当前是父进程，d为空表示当前是子进程
@@ -66,7 +69,7 @@ var cronStartCommand = &cobra.Command{
 			// 子进程执行Cron.Run
 			defer cntxt.Release()
 			fmt.Println("daemon started")
-			gspt.SetProcTitle("hade cron")
+			gspt.SetProcTitle("zima cron")
 			framework.StartCron()
 			return nil
 		} else {
@@ -77,7 +80,7 @@ var cronStartCommand = &cobra.Command{
 			}
 			gspt.SetProcTitle("zima cron")
 			framework.StartCron()
-			fmt.Println("cron服务已启动")
+			fmt.Println("cron服务已启动,pid=", pid)
 			return nil
 		}
 	},
@@ -118,7 +121,7 @@ var cronStateCommand = &cobra.Command{
 }
 
 func initCronCommand() *cobra.Command {
-	cronStartCommand.Flags().BoolVarP(&cronDeamon, "daemon", "d", false, "start serve deamon")
+	cronStartCommand.Flags().BoolVarP(&cronDeamon, "daemon", "d", false, "start serve daemon")
 	cronCommand.AddCommand(cronStartCommand)
 	return cronCommand
 }
