@@ -66,7 +66,7 @@ var cronStartCommand = &cobra.Command{
 			// 子进程执行Cron.Run
 			defer cntxt.Release()
 			fmt.Println("daemon started")
-			gspt.SetProcTitle("zima cron")
+			gspt.SetProcTitle("zima cron daemon")
 			framework.StartCron()
 			return nil
 		} else {
