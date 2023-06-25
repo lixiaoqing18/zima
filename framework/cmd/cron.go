@@ -33,9 +33,6 @@ var cronStartCommand = &cobra.Command{
 		// start命令有一个deamon参数，简写为d
 		settingService := framework.MustMake(contract.SettingKey).(contract.Setting)
 		cronPidFile := filepath.Join(settingService.RuntimeFolder(), "cron.pid")
-		if err := os.Remove(cronPidFile); err != nil {
-			return err
-		}
 		cronLogFile := filepath.Join(settingService.LogFolder(), "cron.log")
 		currentFolder := settingService.BaseFolder()
 		if cronDeamon {
