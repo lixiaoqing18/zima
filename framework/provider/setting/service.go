@@ -2,7 +2,6 @@ package setting
 
 import (
 	"errors"
-	"flag"
 	"path/filepath"
 
 	"github.com/lixiaoqing18/zima/framework"
@@ -38,15 +37,16 @@ func (app *ZimaSettingService) BaseFolder() string {
 		return app.baseFolder
 	}
 	//其次取命令行参数的base_folder
-
-	var baseFolder string
-	if flag.Lookup("base_folder") == nil {
-		flag.StringVar(&baseFolder, "base_folder", "", "base_folder 参数, 默认为当前路径")
-		flag.Parse()
-	}
-	if baseFolder != "" {
-		return baseFolder
-	}
+	/*
+		var baseFolder string
+		if flag.Lookup("base_folder") == nil {
+			flag.StringVar(&baseFolder, "base_folder", "", "base_folder 参数, 默认为当前路径")
+			flag.Parse()
+		}
+		if baseFolder != "" {
+			return baseFolder
+		}
+	*/
 	//最后取当前程序运行的目录
 	return util.GetExecDirectory()
 }

@@ -28,7 +28,6 @@ var appStartCommand = &cobra.Command{
 	Use:   "start",
 	Short: "启动一个Web服务",
 	RunE: func(c *cobra.Command, args []string) error {
-
 		// 从服务容器中获取kernel的服务实例
 		kernelService := framework.MustMake(contract.KernelKey).(contract.Kernel)
 		// 从kernel服务实例中获取引擎

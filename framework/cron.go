@@ -15,7 +15,11 @@ type CronSpec struct {
 
 func StartCron() {
 	if zimaCron != nil {
-		zimaCron.Start()
+		//异步运行
+		//zimaCron.Start()
+
+		//同步运行
+		zimaCron.Run()
 	}
 }
 

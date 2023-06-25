@@ -2,10 +2,18 @@ package cmd
 
 import (
 	"fmt"
+	"io/ioutil"
+	"os"
+	"path/filepath"
 
+	"github.com/erikdubbelboer/gspt"
 	"github.com/lixiaoqing18/zima/framework"
+	"github.com/lixiaoqing18/zima/framework/contract"
+	"github.com/spf13/cast"
 	"github.com/spf13/cobra"
 )
+
+var cronDeamon bool
 
 var cronCommand = &cobra.Command{
 	Use:   "cron",
@@ -21,13 +29,62 @@ var cronStartCommand = &cobra.Command{
 	Use:   "start",
 	Short: "启动一个cron任务",
 	RunE: func(c *cobra.Command, args []string) error {
-		framework.StartCron()
-		fmt.Println("cron服务已启动")
+		// start命令有一个deamon参数，简写为d
+		settingService := framework.MustMake(contract.SettingKey).(contract.Setting)
+		cronPidFile := filepath.Join(settingService.RuntimeFolder(), "cron.pid")
+		if cronDeamon {
+
+			return nil
+		} else {
+			pid := cast.ToString(os.Getpid())
+			err := ioutil.WriteFile(cronPidFile, []byte(pid), 0664)
+			if err != nil {
+				return err
+			}
+			gspt.SetProcTitle("zima cron")
+			framework.StartCron()
+			fmt.Println("cron服务已启动")
+			return nil
+		}
+	},
+}
+
+var cronListCommand = &cobra.Command{
+	Use:   "list",
+	Short: "列出所有cron任务",
+	RunE: func(c *cobra.Command, args []string) error {
+		return nil
+	},
+}
+
+var cronRestartCommand = &cobra.Command{
+	Use:   "restart",
+	Short: "重启cron任务进程",
+	RunE: func(c *cobra.Command, args []string) error {
+
+		return nil
+	},
+}
+
+var cronStopCommand = &cobra.Command{
+	Use:   "stop",
+	Short: " 停止cron任务进程",
+	RunE: func(c *cobra.Command, args []string) error {
+
+		return nil
+	},
+}
+
+var cronStateCommand = &cobra.Command{
+	Use:   "state",
+	Short: "cron任务进程状态",
+	RunE: func(c *cobra.Command, args []string) error {
 		return nil
 	},
 }
 
 func initCronCommand() *cobra.Command {
+	cronStartCommand.Flags().BoolVarP(&cronDeamon, "daemon", "d", false, "start serve deamon")
 	cronCommand.AddCommand(cronStartCommand)
 	return cronCommand
 }
