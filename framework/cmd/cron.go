@@ -120,7 +120,7 @@ var cronRestartCommand = &cobra.Command{
 				time.Sleep(1 * time.Second)
 			}
 		}
-
+		cronDeamon = true
 		return cronStartCommand.RunE(c, args)
 	},
 }
