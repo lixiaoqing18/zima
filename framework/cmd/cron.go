@@ -168,5 +168,6 @@ func initCronCommand() *cobra.Command {
 	cronCommand.AddCommand(cronListCommand)
 	cronCommand.AddCommand(cronStopCommand)
 	cronCommand.AddCommand(cronStateCommand)
+	cronCommand.AddCommand(cronRestartCommand)
 	return cronCommand
 }
