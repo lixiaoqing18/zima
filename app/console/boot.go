@@ -42,5 +42,8 @@ func AddAppCommand(root *cobra.Command) {
 
 func AddCronCommand(root *cobra.Command) {
 	root.AddCommand(demo.TimeCommand)
-	framework.AddCron("* * * * * *", demo.TimeCommandFunc)
+	framework.AddCron("* * * * * *", demo.TimeCommandFunc, demo.TimeCommand)
+
+	root.AddCommand(demo.SayhiCommand)
+	framework.AddCron("5 * * * * *", demo.SayhiCommandFunc, demo.SayhiCommand)
 }

@@ -11,7 +11,7 @@
 			"mode": "debug",
 			"program": "${workspaceFolder}",
             "env": {},
-            "args": ["app","start"]
+            "args": ["cron","state"]
 		},
     ]
 }

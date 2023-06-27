@@ -35,7 +35,7 @@ func (p *ZimaGinProvider) Lazy() bool {
 }
 
 func (p *ZimaGinProvider) Initialize(c framework.Container) error {
-	fmt.Println("ZimaGinProvider beigin initializing")
+	fmt.Println("ZimaGinProvider begin initializing")
 	if p.engine == nil {
 		p.engine = gin.Default()
 	}

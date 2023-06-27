@@ -34,6 +34,6 @@ func (p *ZimaSettingProvider) Lazy() bool {
 }
 
 func (p *ZimaSettingProvider) Initialize(c framework.Container) error {
-	fmt.Println("ZimaAppProvider beigin initializing")
+	fmt.Println("ZimaSettingProvider begin initializing")
 	return nil
 }
