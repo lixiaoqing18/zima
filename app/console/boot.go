@@ -45,5 +45,5 @@ func AddCronCommand(root *cobra.Command) {
 	framework.AddCron("* * * * * *", demo.TimeCommandFunc, demo.TimeCommand)
 
 	root.AddCommand(demo.SayhiCommand)
-	framework.AddCron("5 * * * * *", demo.SayhiCommandFunc, demo.SayhiCommand)
+	framework.AddCron("@every 5s", demo.SayhiCommandFunc, demo.SayhiCommand)
 }
