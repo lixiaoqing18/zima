@@ -4,13 +4,14 @@ import (
 	"github.com/lixiaoqing18/zima/app/console"
 	"github.com/lixiaoqing18/zima/app/web"
 	"github.com/lixiaoqing18/zima/framework"
+	"github.com/lixiaoqing18/zima/framework/provider/distributed"
 	"github.com/lixiaoqing18/zima/framework/provider/kernel"
 	"github.com/lixiaoqing18/zima/framework/provider/setting"
 )
 
 func main() {
 	framework.Bind(setting.NewZimaSettingProvider(""))
-
+	framework.Bind(distributed.NewZimaDistributedFileLockProviderr())
 	if engine, err := web.NewWebEngine(); err == nil {
 		framework.Bind(kernel.NewZimaGinProvider(engine))
 	} else {

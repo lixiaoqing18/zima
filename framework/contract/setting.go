@@ -3,6 +3,8 @@ package contract
 const SettingKey = "zima:setting"
 
 type Setting interface {
+	//app的唯一ID，可用于分布式锁等
+	AppID() string
 	// Version 定义当前版本
 	Version() string
 	//BaseFolder 定义项目基础地址

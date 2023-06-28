@@ -6,11 +6,14 @@ import (
 
 	"github.com/lixiaoqing18/zima/framework"
 	"github.com/lixiaoqing18/zima/framework/util"
+
+	"github.com/google/uuid"
 )
 
 type ZimaSettingService struct {
 	container  framework.Container
 	baseFolder string
+	appID      string
 }
 
 func NewZimaSettingService(params ...any) (any, error) {
@@ -19,10 +22,16 @@ func NewZimaSettingService(params ...any) (any, error) {
 	}
 	c := params[0].(framework.Container)
 	bf := params[1].(string)
+	id := uuid.New().String()
 	return &ZimaSettingService{
 		container:  c,
 		baseFolder: bf,
+		appID:      id,
 	}, nil
+}
+
+func (app *ZimaSettingService) AppID() string {
+	return app.appID
 }
 
 // Version 定义当前版本
