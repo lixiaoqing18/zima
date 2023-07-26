@@ -1,6 +1,8 @@
 package console
 
 import (
+	"time"
+
 	"github.com/lixiaoqing18/zima/app/console/cmd/demo"
 	"github.com/lixiaoqing18/zima/framework"
 	"github.com/lixiaoqing18/zima/framework/cmd"
@@ -45,5 +47,6 @@ func AddCronCommand(root *cobra.Command) {
 	framework.AddCron("* * * * *", demo.TimeCommandFunc, demo.TimeCommand)
 
 	root.AddCommand(demo.SayhiCommand)
-	framework.AddCron("0,5,10,15,20,25,30,35,40,45,50,55 * * * * *", demo.SayhiCommandFunc, demo.SayhiCommand)
+	//framework.AddCron("0,5,10,15,20,25,30,35,40,45,50,55 * * * * *", demo.SayhiCommandFunc, demo.SayhiCommand)
+	framework.AddDistributedCron("sayhi_per_5s", "0,5,10,15,20,25,30,35,40,45,50,55 * * * * *", demo.SayhiCommandFunc, demo.SayhiCommand, 2*time.Second)
 }

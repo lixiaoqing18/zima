@@ -1,0 +1,9 @@
+path:
+  base_folder: 1
+  config_folder: 2
+  log_folder: 3
+  provider_folder: 4
+	middleware_folder: 5
+	command_folder: 6
+	runtime_folder: 7
+	test_folder: 8

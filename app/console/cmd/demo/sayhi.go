@@ -22,15 +22,5 @@ var SayhiCommand = &cobra.Command{
 
 func SayhiCommandFunc() {
 	settingService := framework.MustMake(contract.SettingKey).(contract.Setting)
-	distributedService := framework.MustMake(contract.DistributedKey).(contract.Distributed)
-	localAppID := settingService.AppID()
-	appID, err := distributedService.Select("sayhi_per_5s", localAppID, 2*time.Second)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	if appID != localAppID {
-		return
-	}
 	fmt.Println(settingService.AppID(), "-", time.Now(), "-Hello, Zima Framework is powerful")
 }

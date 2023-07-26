@@ -6,6 +6,7 @@ import (
 )
 
 // CheckProcessExist 检查进程pid是否存在，如果存在的话，返回true
+// linux有效
 func CheckProcessExist(pid int) bool {
 	// 查询这个pid
 	process, err := os.FindProcess(pid)

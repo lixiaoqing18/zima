@@ -1,0 +1,6 @@
+mysql:
+  hostname: 127.0.0.2
+  username: lixiaoqing-test
+  password: env(DB_PASSWORD)
+  timeout: 2
+  readtime: 2.5

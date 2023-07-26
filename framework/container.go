@@ -4,6 +4,8 @@ import (
 	"errors"
 	"fmt"
 	"sync"
+
+	"github.com/lixiaoqing18/zima/framework/contract"
 )
 
 type Container interface {
@@ -55,11 +57,12 @@ func Bind(provider ServiceProvider) error {
 
 func (c *ZimaContainer) Bind(provider ServiceProvider) error {
 	c.mutex.Lock()
-	defer c.mutex.Unlock()
+
 	//if c.IsBind(provider.Name()) {
 	//	return nil
 	//}
 	c.providers[provider.Name()] = provider
+	c.mutex.Unlock()
 	if !provider.Lazy() {
 		_, err := c.createInstance(provider, false, nil)
 		if err != nil {
@@ -132,4 +135,13 @@ func (c *ZimaContainer) createInstance(provider ServiceProvider, useNewParam boo
 	}
 	c.instances[provider.Name()] = instance
 	return instance, nil
+}
+
+var zimaLogInstace contract.Log
+
+func GetLog() contract.Log {
+	if zimaLogInstace == nil {
+		zimaLogInstace = MustMake(contract.LogKey).(contract.Log)
+	}
+	return zimaLogInstace
 }

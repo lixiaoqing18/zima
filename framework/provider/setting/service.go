@@ -14,6 +14,7 @@ type ZimaSettingService struct {
 	container  framework.Container
 	baseFolder string
 	appID      string
+	configMap  map[string]string
 }
 
 func NewZimaSettingService(params ...any) (any, error) {
@@ -27,7 +28,14 @@ func NewZimaSettingService(params ...any) (any, error) {
 		container:  c,
 		baseFolder: bf,
 		appID:      id,
+		configMap:  map[string]string{},
 	}, nil
+}
+
+func (app *ZimaSettingService) LoadConfigMap(config map[string]string) {
+	for k, v := range config {
+		app.configMap[k] = v
+	}
 }
 
 func (app *ZimaSettingService) AppID() string {
@@ -41,6 +49,9 @@ func (app *ZimaSettingService) Version() string {
 
 // BaseFolder 定义项目基础地址
 func (app *ZimaSettingService) BaseFolder() string {
+	if v, ok := app.configMap["base_folder"]; ok {
+		return v
+	}
 	//优先取参数传递的baseFolder
 	if app.baseFolder != "" {
 		return app.baseFolder
@@ -62,35 +73,56 @@ func (app *ZimaSettingService) BaseFolder() string {
 
 // ConfigFolder 定义了配置文件的路径
 func (app *ZimaSettingService) ConfigFolder() string {
+	if v, ok := app.configMap["config_folder"]; ok {
+		return v
+	}
 	return filepath.Join(app.BaseFolder(), "config")
 }
 
 // LogFolder 定义了日志所在路径
 func (app *ZimaSettingService) LogFolder() string {
+	if v, ok := app.configMap["log_folder"]; ok {
+		return v
+	}
 	return filepath.Join(app.BaseFolder(), "storage", "log")
 }
 
 // ProviderFolder 定义业务自己的服务提供者地址
 func (app *ZimaSettingService) ProviderFolder() string {
-	return filepath.Join(app.BaseFolder(), "provider")
+	if v, ok := app.configMap["provider_folder"]; ok {
+		return v
+	}
+	return filepath.Join(app.BaseFolder(), "app", "provider")
 }
 
 // MiddlewareFolder 定义业务自己定义的中间件
 func (app *ZimaSettingService) MiddlewareFolder() string {
-	return filepath.Join(app.BaseFolder(), "web", "middleware")
+	if v, ok := app.configMap["middleware_folder"]; ok {
+		return v
+	}
+	return filepath.Join(app.BaseFolder(), "app", "web", "middleware")
 }
 
 // CommandFolder 定义业务定义的命令
 func (app *ZimaSettingService) CommandFolder() string {
-	return filepath.Join(app.BaseFolder(), "console", "cmd")
+	if v, ok := app.configMap["command_folder"]; ok {
+		return v
+	}
+	return filepath.Join(app.BaseFolder(), "app", "console", "cmd")
 }
 
 // RuntimeFolder 定义业务的运行中间态信息
 func (app *ZimaSettingService) RuntimeFolder() string {
+	if v, ok := app.configMap["runtime_folder"]; ok {
+		return v
+	}
 	return filepath.Join(app.BaseFolder(), "storage", "runtime")
 }
 
 // TestFolder 存放测试所需要的信息
 func (app *ZimaSettingService) TestFolder() string {
+	if v, ok := app.configMap["test_folder"]; ok {
+		return v
+	}
 	return filepath.Join(app.BaseFolder(), "test")
 }

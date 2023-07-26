@@ -1,0 +1,17 @@
+driver: rotate # console,single,rotate,custom
+level: debug # panic,fatal,error,warn,info,debug,trace
+formatter: text # text,json
+
+#driver为single时,可选,默认从全局配置或者setting.yaml中获取log目录
+single:
+  folder: d:/logs/
+#driver为single时,必填
+  filename: myapp.log
+
+rotate:
+  folder: d:/logs/
+  filename: myapp_rotate.log
+  maxsize: 1 # 500M
+  maxbackups: 2
+  maxage: 30 # days
+  compress: true

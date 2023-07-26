@@ -3,6 +3,8 @@ package contract
 const SettingKey = "zima:setting"
 
 type Setting interface {
+	//从配置文件加载配置
+	LoadConfigMap(config map[string]string)
 	//app的唯一ID，可用于分布式锁等
 	AppID() string
 	// Version 定义当前版本

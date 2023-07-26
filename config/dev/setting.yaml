@@ -1,0 +1,9 @@
+path:
+  base_folder: "D:/GitHub/zima"
+  #config_folder: "D:/GitHub/zima/config"
+  #log_folder: "D:/GitHub/zima/storage/log"
+  #provider_folder: "D:/GitHub/zima/app/provider"
+  #middleware_folder: "D:/GitHub/zima/app/web/middleware"
+  #command_folder: "D:/GitHub/zima/app/console/cmd"
+  #runtime_folder: "D:/GitHub/zima/storage/runtime"
+  #test_folder: "D:/GitHub/zima/test"

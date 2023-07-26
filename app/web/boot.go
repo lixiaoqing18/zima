@@ -37,6 +37,7 @@ func NewWebEngine() (*gin.Engine, error) {
 	//core.Use(gin.Logger())
 	core.Use(gin.Recovery())
 	core.Use(middleware.Cost())
+	core.Use(middleware.Trace())
 
 	RegisterRouter(core)
 

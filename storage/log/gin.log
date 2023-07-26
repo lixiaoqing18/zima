@@ -2,6 +2,10 @@
  - using env:	export GIN_MODE=release
  - using code:	gin.SetMode(gin.ReleaseMode)
 
-[GIN-debug] GET    /dist/*filepath           --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (4 handlers)
-[GIN-debug] HEAD   /dist/*filepath           --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (4 handlers)
-[GIN-debug] GET    /demo                     --> github.com/lixiaoqing18/zima/app/web/module/demo.(*DemoAPI).demo1-fm (4 handlers)
+[GIN-debug] GET    /dist/*filepath           --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (5 handlers)
+[GIN-debug] HEAD   /dist/*filepath           --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (5 handlers)
+[GIN-debug] GET    /demo                     --> github.com/lixiaoqing18/zima/app/web/module/demo.(*DemoAPI).demo1-fm (5 handlers)
+::1 - [Tue, 11 Jul 2023 16:00:59 CST] "GET /demo HTTP/1.1 200 26.0947ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.67" "
+::1 - [Tue, 11 Jul 2023 16:00:59 CST] "GET /demo HTTP/1.1 200 1.0267ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.67" "
+::1 - [Tue, 11 Jul 2023 16:01:00 CST] "GET /demo HTTP/1.1 200 1.8617ms "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.67" "
+::1 - [Tue, 11 Jul 2023 16:01:00 CST] "GET /demo HTTP/1.1 200 0s "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.67" "

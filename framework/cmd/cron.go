@@ -91,6 +91,10 @@ var cronListCommand = &cobra.Command{
 	RunE: func(c *cobra.Command, args []string) error {
 		crons := framework.ListCronSpec()
 		util.PrettyPrint(crons)
+
+		//configService := framework.MustMake(contract.ConfigKey).(contract.Config)
+		//fmt.Println(configService.Get("database.mysql.username"))
+		//fmt.Println(configService.Get("database.mysql.password"))
 		return nil
 	},
 }

@@ -40,4 +40,6 @@ func (api *DemoAPI) demo1(ctx *gin.Context) {
 		"RuntimeFolder":    settingService.RuntimeFolder(),
 		"TestFolder":       settingService.TestFolder(),
 	})
+
+	framework.GetLog().Info(ctx, "demo1 response completed", map[string]any{})
 }

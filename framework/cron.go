@@ -1,6 +1,10 @@
 package framework
 
 import (
+	"fmt"
+	"time"
+
+	"github.com/lixiaoqing18/zima/framework/contract"
 	"github.com/robfig/cron/v3"
 	"github.com/spf13/cobra"
 )
@@ -48,10 +52,11 @@ var zimaCron *cron.Cron
 var cronSpecs []CronSpec
 
 type CronSpec struct {
-	Type string
-	Func func()
-	Cmd  *cobra.Command
-	Spec string
+	Type  string
+	Func  func()
+	Cmd   *cobra.Command
+	Spec  string
+	Title string
 }
 
 func StartCron() {
@@ -81,10 +86,45 @@ func AddCron(spec string, f func(), cmd *cobra.Command) {
 
 }
 
+func AddDistributedCron(title string, spec string, f func(), cmd *cobra.Command, lockTime time.Duration) {
+	if zimaCron == nil {
+		zimaCron = cron.New(cron.WithParser(cron.NewParser(cron.SecondOptional | cron.Minute | cron.Hour | cron.Dom | cron.Month | cron.Dow | cron.Descriptor)))
+		cronSpecs = []CronSpec{}
+	}
+
+	cronSpecs = append(cronSpecs, CronSpec{
+		Type:  "distributed-cron",
+		Func:  f,
+		Cmd:   cmd,
+		Spec:  spec,
+		Title: title,
+	})
+
+	zimaCron.AddFunc(spec, func() {
+		settingService := MustMake(contract.SettingKey).(contract.Setting)
+		distributedService := MustMake(contract.DistributedKey).(contract.Distributed)
+		localAppID := settingService.AppID()
+		defer func() {
+			if err := recover(); err != nil {
+				fmt.Println(err)
+			}
+		}()
+		appID, err := distributedService.Select(title, localAppID, lockTime)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		if appID != localAppID {
+			return
+		}
+		f()
+	})
+}
+
 func ListCronSpec() [][]string {
 	result := [][]string{}
 	for _, v := range cronSpecs {
-		line := []string{v.Type, v.Spec, v.Cmd.Use, v.Cmd.Short}
+		line := []string{v.Type, v.Spec, v.Cmd.Use, v.Cmd.Short, v.Title}
 		result = append(result, line)
 	}
 	return result

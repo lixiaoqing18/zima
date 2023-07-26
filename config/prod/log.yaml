@@ -1,0 +1,3 @@
+driver: rotate # console,single,rotate,custom
+lever: INFO # panic,fatal,error,warn,info,debug,trace
+formatter: text # text,json
